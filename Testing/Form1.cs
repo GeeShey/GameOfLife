@@ -294,7 +294,7 @@ namespace Testing
 
                         Font font = new Font("Arial", 15);
 
-                        //adding the code to display a number on correspoding cells
+                        //adding the code to display neighbor count on correspoding cells
                         
                         StringFormat stringFormat = new StringFormat();
                         stringFormat.Alignment = StringAlignment.Center;
@@ -320,6 +320,37 @@ namespace Testing
                     }
                     else
                     {
+                        //This is the code to display neigbours in dead cells
+                        if (countNeighbours(x,y)>0)
+                        {
+
+                            Font font = new Font("Arial", 15);
+
+                            //adding the code to display neighbor count on correspoding cells
+
+                            StringFormat stringFormat = new StringFormat();
+                            stringFormat.Alignment = StringAlignment.Center;
+                            stringFormat.LineAlignment = StringAlignment.Center;
+
+                            int neighbors = countNeighbours(x, y);
+                            System.Drawing.SolidBrush b ;
+                            if (nextGenStatus(x, y))//if the cell will be alive next generation make the font green
+                            {
+                                b = new System.Drawing.SolidBrush(AliveNeighbor);
+
+
+                            }
+                            else
+                            {
+                                b = new System.Drawing.SolidBrush(DedNeighbor);
+                            }
+                            if (!displayNeighborCount)
+                                e.Graphics.DrawString("" + neighbors + "", font, b, cellRect, stringFormat);
+
+
+                            b.Dispose();
+
+                        }
                         
                         if(!displaySmallGrid)    
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
