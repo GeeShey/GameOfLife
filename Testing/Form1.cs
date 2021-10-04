@@ -292,7 +292,7 @@ namespace Testing
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
 
-                        Font font = new Font("Arial", 20);
+                        Font font = new Font("Arial", 15);
 
                         //adding the code to display a number on correspoding cells
                         
