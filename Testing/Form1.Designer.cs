@@ -285,7 +285,7 @@ namespace Testing
             this.changeDeadNeigToolStripMenuItem,
             this.changeBackgroundColorToolStripMenuItem});
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
             this.customizeToolStripMenuItem.Click += new System.EventHandler(this.customizeToolStripMenuItem_Click);
             // 
@@ -383,21 +383,21 @@ namespace Testing
             // savePreferenceToolStripMenuItem
             // 
             this.savePreferenceToolStripMenuItem.Name = "savePreferenceToolStripMenuItem";
-            this.savePreferenceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.savePreferenceToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.savePreferenceToolStripMenuItem.Text = "Save Preference";
             this.savePreferenceToolStripMenuItem.Click += new System.EventHandler(this.savePreferenceToolStripMenuItem_Click);
             // 
             // reloadToolStripMenuItem
             // 
             this.reloadToolStripMenuItem.Name = "reloadToolStripMenuItem";
-            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.reloadToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.reloadToolStripMenuItem.Text = "Reload";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
             // 
             // resetToolStripMenuItem
             // 
             this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
             this.resetToolStripMenuItem.Text = "Reset";
             this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
             // 

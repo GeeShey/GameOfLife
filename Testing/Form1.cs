@@ -116,7 +116,7 @@ namespace Testing
 
             for (int x = _xCoordinate - 1; x <= _xCoordinate + 1; x++)
                 //starting from the element on the top left of the coordinate
-                //I traverse all the way to the bottom right of the coordinate
+                //traverse all the way to the bottom right of the coordinate
             {
                 for (int y = _yCoordinate - 1; y <= _yCoordinate + 1; y++)
                 {
@@ -129,12 +129,12 @@ namespace Testing
                     int circularX = x;
                     int circularY = y;
 
-                    if (y == universe.GetLength(0) || y < 0)
+                    if (y == universe.GetLength(1) || y < 0)
                     {
                         //element is on the bottom/top row
 
                         //element is on bottom row
-                        if (y == universe.GetLength(0))
+                        if (y == universe.GetLength(1))
                         {
                             if (toroidal)
                                 circularY = 0;
@@ -144,7 +144,7 @@ namespace Testing
                         else //element is on the top row
                         {
                             if (toroidal)
-                                circularY = universe.GetLength(0) - 1;
+                                circularY = universe.GetLength(1) - 1;
                             else
                                 outOfBoundsFlag = true;
 
@@ -455,7 +455,7 @@ namespace Testing
         }
 
         //this function displays a dialogue box with the "title" and returns a numeric function
-        private int getIntegerInput(String title)
+        private int getIntegerInput(String title,int defaultVal,int min =0, int max = int.MaxValue)
         {
             int input = 0;
             //displaying a seed menu
@@ -465,6 +465,20 @@ namespace Testing
             dlg1.FormBorderStyle = FormBorderStyle.FixedDialog;
             dlg1.MinimizeBox = false;
             dlg1.MaximizeBox = false;
+
+            NumericUpDown numericUpDown1 = new NumericUpDown();
+
+            // Dock the control to the top of the form.
+            numericUpDown1.Dock = System.Windows.Forms.DockStyle.Top;
+
+            // Set the Minimum, Maximum, and initial Value.
+            numericUpDown1.Value = defaultVal;
+            numericUpDown1.Maximum = 2500;
+            numericUpDown1.Minimum = -100;
+
+            // Add the NumericUpDown to the Form.
+            dlg1.Controls.Add(numericUpDown1);
+
 
             Button ok = new Button();
             Button cancel = new Button();
@@ -483,10 +497,8 @@ namespace Testing
 
             int size = dlg1.Size.Width;
 
-            TextBox textBox = new TextBox();
-            textBox.Size = new System.Drawing.Size(200, 23);
-            textBox.Location = new System.Drawing.Point(50, 50);
-            dlg1.Controls.Add(textBox);
+            numericUpDown1.Size = new System.Drawing.Size(200, 23);
+            numericUpDown1.Location = new System.Drawing.Point(50, 50);
 
 
             dlg1.Controls.Add(ok);
@@ -496,18 +508,7 @@ namespace Testing
             if (dlg1.DialogResult == DialogResult.OK)
             {
 
-                int result = 0;
-                bool isNumeric = int.TryParse(textBox.Text, out result);
-
-                if (isNumeric)
-                {
-                    input = result;
-                }
-                else
-                {
-                    MessageBox.Show("Please enter a valid integer :)");
-                    dlg1.Close();
-                }
+                input = (int)numericUpDown1.Value;
             }
 
             return input;
@@ -643,7 +644,7 @@ namespace Testing
         //getting the time data using system.time
         private void seedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int input = getIntegerInput("Choose Seed");
+            int input = getIntegerInput("Choose Seed",0);
             if (timer.Enabled)
             {
                 pauseGenerations();
@@ -905,7 +906,7 @@ namespace Testing
 
             //getting the interval input value from the user
 
-            interval = getIntegerInput("Interval");
+            interval = getIntegerInput("Interval",interval);
             timer.Interval = interval;
 
 
@@ -914,10 +915,24 @@ namespace Testing
         //implementing the resize feature
         private void resizeUniverseToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            int x = 0;
+            int y = 0;
             pauseGenerations();
 
-            int temp = getIntegerInput("size of the new universe");
-            universe = new bool[temp, temp];
+            //int temp = getIntegerInput("Enter universe height",universe.GetLength(0));
+
+            UniverseSizeWindow dlg = new UniverseSizeWindow();
+            dlg.setNum1(universe.GetLength(0));
+            dlg.setNum2(universe.GetLength(1));
+            dlg.ShowDialog();
+
+            if (dlg.DialogResult == DialogResult.OK)
+            {
+                x = dlg.getNum1();
+                y = dlg.getNum2();
+
+            }
+            universe = new bool[x, y];
             graphicsPanel1.Invalidate();
         }
 
