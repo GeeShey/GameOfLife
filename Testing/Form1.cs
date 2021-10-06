@@ -184,10 +184,6 @@ namespace Testing
                             neighbors++;
                         }
                     }
-                    
-
-
-
                 }
             }
             return neighbors;
@@ -259,9 +255,9 @@ namespace Testing
             //TODO FIX THE SCALE OF EACH RECTANGLE SO THAT IT STICKS TO THE EDGE OF THE RECTANGLE
 
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
-            int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+            float cellWidth =(float) graphicsPanel1.ClientSize.Width / universe.GetLength(0);
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
-            int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+            float cellHeight = (float)graphicsPanel1.ClientSize.Height / universe.GetLength(1);
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(GridBorder, 1);
@@ -280,7 +276,7 @@ namespace Testing
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // A rectangle to represent each cell in pixels
-                    Rectangle cellRect = Rectangle.Empty;
+                    RectangleF cellRect = Rectangle.Empty;
                     cellRect.X = x * cellWidth;
                     cellRect.Y = y * cellHeight;
                     cellRect.Width = cellWidth;
@@ -400,8 +396,8 @@ namespace Testing
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             // Calculate the width and height of each cell in pixels
-            int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
-            int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+            float cellWidth = (float)graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+            float cellHeight = (float)graphicsPanel1.ClientSize.Height / universe.GetLength(1);
             // If the left mouse button was clicked
             if (e.Button == MouseButtons.Left)
             {
@@ -410,9 +406,9 @@ namespace Testing
 
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
-                int x = (e.X / cellWidth);
+                int x = (int)(e.X / cellWidth);
                 // CELL Y = MOUSE Y / CELL HEIGHT
-                int y = (e.Y / cellHeight);
+                int y = (int)(e.Y / cellHeight);
 
                 // Toggle the cell's state
                 universe[x, y] = !universe[x, y];
@@ -423,7 +419,7 @@ namespace Testing
 
             if (e.Button == MouseButtons.Right)
             {
-                contextMenuStrip1.Show(this, new Point(e.X, e.Y+cellHeight));
+                contextMenuStrip1.Show((Control)sender , new Point(e.X, e.Y));
 
             }
 
@@ -452,7 +448,7 @@ namespace Testing
 
             //resetting the toolbar values
             alive = aliveCellCount();
-            ded = (universe.GetLength(0) * universe.GetLength(0)) - alive;
+            ded = (universe.GetLength(0) * universe.GetLength(1)) - alive;
             generations = 0;
             
 
@@ -962,7 +958,7 @@ namespace Testing
 
         }
 
-        private Color GetColor(String msg)
+        private Color GetColor(String msg, Color col)
         {
             TextBox textBox = new TextBox();
             textBox.Size = new System.Drawing.Size(200, 23);
@@ -972,11 +968,12 @@ namespace Testing
 
             ColorDialog MyDialog = new ColorDialog();
             // Keeps the user from selecting a custom color.
-            MyDialog.AllowFullOpen = true;
+            MyDialog.AllowFullOpen = false;
+
+            MyDialog.Color = col;
             // Allows the user to get help. (The default is false.)
             MyDialog.ShowHelp = true;
             // Sets the initial color select to the current text color.
-            MyDialog.Color = textBox.ForeColor;
 
             // Update the text box color if the user clicks OK 
             if (MyDialog.ShowDialog() == DialogResult.OK)
@@ -993,38 +990,38 @@ namespace Testing
 
         private void changeAliveNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DedNeighbor = GetColor("Choose Neighbor Count Color for alive cells");
+            DedNeighbor = GetColor("Choose Neighbor Count Color for alive cells",DedNeighbor);
             graphicsPanel1.Invalidate();
         }
 
         private void changeDeadNeigToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AliveNeighbor = GetColor("Choose Neighbour Count Color for dead cells");
+            AliveNeighbor = GetColor("Choose Neighbour Count Color for dead cells",AliveNeighbor);
             graphicsPanel1.Invalidate();
 
         }
 
         private void changeGridBorderColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GridBorder = GetColor("Choose Small Grid Color");
+            GridBorder = GetColor("Choose Small Grid Color",GridBorder);
             graphicsPanel1.Invalidate();
         }
 
         private void changeBigGridBorderColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BigGridBorder = GetColor("Choose Big Grid Color");
+            BigGridBorder = GetColor("Choose Big Grid Color",BigGridBorder);
             graphicsPanel1.Invalidate();
         }
 
         private void changeGridFillColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GridAliveFill = GetColor("Choose Grid Fill Color");
+            GridAliveFill = GetColor("Choose Grid Fill Color", GridAliveFill);
             graphicsPanel1.Invalidate();
         }
 
         private void changeBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GridDedFill = GetColor("Choose Background Color");
+            GridDedFill = GetColor("Choose Background Color", GridDedFill);
             graphicsPanel1.Invalidate();
         }
 
