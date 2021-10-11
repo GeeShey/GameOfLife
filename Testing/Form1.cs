@@ -28,7 +28,10 @@ namespace Testing
         bool displayHud = true;
 
 
-       
+        int seed = 0;
+
+
+      
 
         //customizable colors
         Color GridBorder = Color.Black;
@@ -63,6 +66,9 @@ namespace Testing
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // timer running status
             label1.Text = "";//HUD text
+
+            //setting all the preference options to display correctly
+ 
 
         }
 
@@ -472,9 +478,10 @@ namespace Testing
             numericUpDown1.Dock = System.Windows.Forms.DockStyle.Top;
 
             // Set the Minimum, Maximum, and initial Value.
+            numericUpDown1.Maximum = max;
+            numericUpDown1.Minimum = min;
             numericUpDown1.Value = defaultVal;
-            numericUpDown1.Maximum = 2500;
-            numericUpDown1.Minimum = -100;
+            
 
             // Add the NumericUpDown to the Form.
             dlg1.Controls.Add(numericUpDown1);
@@ -507,8 +514,20 @@ namespace Testing
 
             if (dlg1.DialogResult == DialogResult.OK)
             {
+                if(numericUpDown1.Value>max || numericUpDown1.Value < min)
+                {
+                    input = defaultVal;
+                    MessageBox.Show("Inavlid Input");
+                }
+                else
+                {
+                    input = (int)numericUpDown1.Value;
 
-                input = (int)numericUpDown1.Value;
+                }
+            }
+            else
+            {
+                input = defaultVal;
             }
 
             return input;
@@ -582,9 +601,34 @@ namespace Testing
         {
             //when a new instance is created, program loads previous pref data
             loadPrefs();
-
+            setPrefMenu();
             updateHUD();
             graphicsPanel1.Invalidate();
+        }
+
+        private void setPrefMenu()
+        {
+            //setting the preference menu on the toolstrip
+            if (displaySmallGrid)
+                enableDisableSmallGridToolStripMenuItem.Checked = false;
+            else
+                enableDisableSmallGridToolStripMenuItem.Checked = true;
+
+            if (displayBigGrid)
+                gridToolStripMenuItem.Checked = true;
+            else
+                gridToolStripMenuItem.Checked = false;
+
+            if (displayNeighborCount)
+                neighborToolStripMenuItem.Checked = false;
+            else
+                neighborToolStripMenuItem.Checked = true;
+
+            if (displayHud)
+                hUDToolStripMenuItem.Checked = false;
+            else
+                hUDToolStripMenuItem.Checked = true;
+
         }
 
         private void newToolStripButton_Click(object sender, EventArgs e)
@@ -644,12 +688,12 @@ namespace Testing
         //getting the time data using system.time
         private void seedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int input = getIntegerInput("Choose Seed",0);
+            seed = getIntegerInput("Choose Seed",seed);
             if (timer.Enabled)
             {
                 pauseGenerations();
             }
-            randomizeUniverse(input);
+            randomizeUniverse(seed);
             graphicsPanel1.Invalidate();
 
         }
@@ -906,7 +950,7 @@ namespace Testing
 
             //getting the interval input value from the user
 
-            interval = getIntegerInput("Interval",interval);
+            interval = getIntegerInput("Interval",interval,1);
             timer.Interval = interval;
 
 
@@ -950,8 +994,12 @@ namespace Testing
 
         private void gridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(displayBigGrid)
-            displayBigGrid = false;
+            if (displayBigGrid)
+            {
+                displayBigGrid = false;
+
+            }
+            
             else
             {
                 displayBigGrid = true;
@@ -963,7 +1011,11 @@ namespace Testing
         private void enableDisableSmallGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (displaySmallGrid)
+            {
                 displaySmallGrid = false;
+
+            }
+                
             else
             {
                 displaySmallGrid = true;
