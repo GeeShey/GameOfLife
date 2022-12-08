@@ -27,11 +27,8 @@ namespace Testing
         bool displayNeighborCount = false;
         bool displayHud = true;
 
-
+        //keeps track of the random seed
         int seed = 0;
-
-
-      
 
         //customizable colors
         Color GridBorder = Color.Black;
@@ -40,8 +37,6 @@ namespace Testing
         Color AliveNeighbor = Color.Green;
         Color DedNeighbor = Color.Red;
         Color BigGridBorder = Color.Black;
-
-
 
         // integers to keep track of alive cells
         int alive;
@@ -66,10 +61,7 @@ namespace Testing
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // timer running status
             label1.Text = "";//HUD text
-
-            //setting all the preference options to display correctly
- 
-
+            
         }
 
         // Calculate the next generation of cells
@@ -444,8 +436,8 @@ namespace Testing
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    int boolVal = rand.Next(2);
-                    if (boolVal == 1)
+                    int boolVal = rand.Next(3);
+                    if (boolVal == 1)// 0,1,2 are possible values so 1 has 1/3 chance
                         universe[x, y] = true;
                     else
                         universe[x, y] = false;
@@ -544,8 +536,8 @@ namespace Testing
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
-                    int boolVal = rand.Next(2);
-                    if (boolVal == 1)
+                    int boolVal = rand.Next(3);
+                    if (boolVal == 1)// 0,1,2 are possible values so 1 has 1/3 chance
                         universe[x, y] = true;
                     else
                         universe[x, y] = false;
